@@ -27,3 +27,30 @@
 - Review .learnings/ at session start
 - Log corrections and errors to .learnings/
 - Consolidate periodically
+
+## Handoff Workflow
+- Always read `HANDOFF.md` before starting meaningful work in this repository
+- Use `HANDOFF.md` to understand:
+  - project summary
+  - current status
+  - last session changes
+  - files touched
+  - open issues
+  - next best step
+  - guardrails and known decisions
+- Before ending a meaningful work session, update `HANDOFF.md`
+- Keep `HANDOFF.md` short, current, and practical
+- Update these sections when relevant:
+  - Current Status
+  - Last Session Changes
+  - Files Touched
+  - Open Issues
+  - Next Best Step
+  - Known Decisions
+- Do not turn `HANDOFF.md` into a long diary or changelog
+- Do not duplicate the README
+- Prefer concise bullet points over long paragraphs
+- When in doubt:
+  - preserve working logic
+  - avoid unnecessary rewrites
+  - follow the Next Best Step unless a blocker requires otherwise

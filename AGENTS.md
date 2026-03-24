@@ -48,3 +48,32 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - Before major tasks, review recent learnings to avoid repeating past mistakes
 - Periodically consolidate learnings — merge duplicates, remove outdated entries, promote broadly applicable ones to AGENTS.md
 <!-- END:self-improvement-rules -->
+
+<!-- BEGIN:handoff-workflow -->
+# Handoff Workflow
+- Always read `HANDOFF.md` before starting meaningful work in this repository
+- Use `HANDOFF.md` to understand:
+  - project summary
+  - current status
+  - last session changes
+  - files touched
+  - open issues
+  - next best step
+  - guardrails and known decisions
+- Before ending a meaningful work session, update `HANDOFF.md`
+- Keep `HANDOFF.md` short, current, and practical
+- Update these sections when relevant:
+  - Current Status
+  - Last Session Changes
+  - Files Touched
+  - Open Issues
+  - Next Best Step
+  - Known Decisions
+- Do not turn `HANDOFF.md` into a long diary or changelog
+- Do not duplicate the README
+- Prefer concise bullet points over long paragraphs
+- When in doubt:
+  - preserve working logic
+  - avoid unnecessary rewrites
+  - follow the Next Best Step unless a blocker requires otherwise
+<!-- END:handoff-workflow -->
