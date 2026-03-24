@@ -1,4 +1,4 @@
-# Foundation Project
+# Foundation - Claude Code Rules
 
 ## Stack
 - Next.js (App Router) + TypeScript (strict)
