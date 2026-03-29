@@ -1,4 +1,13 @@
 /**
+ * ⚠️  REFERENCE ONLY — This file documents the design system
+ * but does NOT drive the UI directly.
+ *
+ * The live design system lives in src/app/globals.css
+ * All Tailwind utilities pull from CSS variables defined there.
+ *
+ * When updating the design system, edit globals.css directly.
+ * Keep this file in sync manually as a human-readable reference.
+ *
  * Design Tokens — Travel/Hospitality SaaS Dashboard
  *
  * Deep navy primary for executive trust, ocean teal secondary for
