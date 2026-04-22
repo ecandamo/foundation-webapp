@@ -40,14 +40,55 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - Apply tokens with intention — always refer to Design Philosophy for how to use them
 
 ## Design Philosophy
-- Target aesthetic: Linear.app level of polish
-- Typography: strong hierarchy, dramatic size contrast between headings and body
-- Color: mostly neutral, accent used sparingly and intentionally
-- Density: data-rich but never cluttered
-- Whitespace: used deliberately, not as filler
-- Every component should feel intentional and premium, never default
-- Avoid generic AI-generated aesthetics at all costs
-- Reference apps: Linear.app, Stripe Dashboard, Vercel Dashboard
+
+**Brand:** API Global Solutions — the global leader in crew accommodation and travel logistics technology. The product serves airlines, cargo carriers, rail operators, and cruise lines. Users are dispatchers, crew schedulers, ops directors, and finance controllers — not consumers.
+
+**Target aesthetic:** Modern operational SaaS — confident, data-dense, calm, and unmistakably navy-and-green. Think operations console, not marketing site. Reference: Linear.app level of polish applied to an ops dashboard.
+
+**Colors:**
+- Primary: Navy `#273B6E` — executive authority, trust, structure. Use on primary buttons, sidebar, nav chrome, data hero surfaces.
+- Secondary/Accent: Green `#78BC43` — operational, active, "go". Use sparingly: active nav markers, primary CTA inside navy surfaces, positive deltas, live-status pulses.
+- Surfaces: `#FFFFFF` cards, `#F7F8FB` page chrome, `#0B1428` sidebar and data heroes.
+- Ink neutrals (navy-tinted) for all supporting text and chrome. Never use generic slate or gray palettes.
+- No amber, teal, or purple — those are not API brand colors.
+
+**Typography:**
+- Mulish — all UI and display text. Weights 400–800.
+- Questrial — documents and presentations only.
+- JetBrains Mono — all data values, PNRs, IDs, money amounts, and chart ticks.
+- Strong size contrast: KPI numerals 30–48px, body 13–15px. Never flat typographic hierarchy.
+- Letter spacing: tight (`-0.02em`) on display/KPI, wide (`0.12em`) on ALL-CAPS eyebrow labels only.
+
+**Backgrounds:** Flat. No gradients except navy→deeper-navy on IROPS/data hero surfaces. No photographic backgrounds in UI. No glassmorphism.
+
+**Cards:** Always 1px border `#E4E7EE` + radius `14px` + navy-tinted shadow. Never shadow-only — always border + shadow together. Shadow lifts on hover.
+
+**Shadows:** All navy-tinted (`rgb(39 59 110 / α)`). Five steps: xs (flat), sm (rest), md (hover), lg (menu), xl (modal).
+
+**Radii:** xs 3px (tags), sm 6px (chips), md 10px (inputs, nav items), lg 14px (cards, buttons), xl 20px+ (hero surfaces), pill (badges).
+
+**Icons:** Lucide only. 2px stroke, 24×24 viewBox, rendered at 16–20px. `currentColor`. No emoji, no unicode icons, no PNG icons.
+
+**Motion:** Subtle. Hovers: darken ~8–10% + lift 1px, 180ms ease-out. Press: 120ms, `translateY(1px)`. Pulse dot on live status (2s loop). No bounces, no parallax.
+
+**Copy/content style:**
+- Sentence case for all UI labels, buttons, table headers.
+- ALL CAPS only for tiny eyebrow labels with wide tracking.
+- Imperative verbs in actions: "Release block", "Confirm rooming list", "Reconcile".
+- Tabular numerics, explicit units: "3,241 rooms", "$138 /room-night", "+5h delay".
+- No emoji. No marketing fluff. No consumer-friendly softening.
+
+**Layout:** Fixed sidebar 232px, fixed topbar 64px. Content max-width 1280px. 28px gutters between cards, 16px between KPI tiles.
+
+**Density:** Data-rich but never cluttered. Whitespace is used deliberately, not as filler. Never sacrifice information density for breathing room — find both.
+
+**What to avoid:**
+- Generic AI-generated aesthetics
+- Default shadcn appearance without customization
+- Amber, teal, or purple accents
+- Gradients on standard surfaces
+- Emoji or unicode icon hacks
+- Consumer-app softness or marketing language
 <!-- END:project-rules -->
 
 <!-- BEGIN:self-improvement-rules -->
