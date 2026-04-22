@@ -1,13 +1,13 @@
-@import "tailwindcss";
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
-
 /* ── Webfonts ───────────────────────────────────────────────
    Approved typography for API Global Solutions:
    • Mulish          — display / UI (replaces Sailec)
    • Questrial       — documents (replaces Century Gothic)
    • JetBrains Mono  — data / code / PNRs / money           */
 @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800&family=Questrial&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
 
