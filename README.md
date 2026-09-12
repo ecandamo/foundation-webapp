@@ -20,13 +20,15 @@ Esteban's starter template for all new projects.
 
 ## Design System
 Live design system lives in `src/app/globals.css` — edit there for style changes.
-`src/styles/design-tokens.ts` is a reference document only, not the live source.
+`src/styles/design-tokens.ts` is a TypeScript reference document only, not the live source.
 
 **Brand:** API Global Solutions — navy `#273B6E` + green `#78BC43`.
-**Fonts:** Mulish (UI), Questrial (docs), JetBrains Mono (data/code).
-**Logos:** `public/` — navy, green, white, and blue variants + plus mark.
+**Fonts:** Mulish (UI), Questrial (docs), JetBrains Mono (data/code) — self-hosted from `public/fonts/`, no CDN.
+**Logos:** `public/logos/` — navy, white, green, and inline (currentColor) variants + plus mark.
 
-See `docs/design-system/` for the full design system reference — color/type tokens and component previews.
+See `docs/design-system/` for the full design system reference: `DESIGN.md` (read
+before writing UI), `brand.json` (machine-readable brand), `tokens.css` (raw token
+mirror), and `ui-kit/` (an applied component reference).
 
 ## Design Philosophy
 - Target aesthetic: operational SaaS polish — confident, data-dense, calm, navy-and-green
@@ -44,8 +46,9 @@ See `docs/design-system/` for the full design system reference — color/type to
 - `src/hooks` — Custom React hooks
 - `src/types` — TypeScript type definitions
 - `src/styles` — Reference tokens and shared style utilities only (live theme is in src/app/globals.css)
-- `public/` — Logos and brand assets (navy, green, white, blue variants + plus mark)
-- `docs/design-system/` — Design system reference: color/type tokens, component previews
+- `public/fonts` — Self-hosted brand fonts (Mulish, Questrial, JetBrains Mono)
+- `public/logos` — Brand logo SVGs (navy, white, green, inline variants + plus mark)
+- `docs/design-system/` — Design system reference: DESIGN.md, brand.json, tokens.css, and the ui-kit component reference
 
 ## Testing
 - `npm test` — run all tests once (unit/component tests via Vitest + React Testing Library)

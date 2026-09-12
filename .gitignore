@@ -44,6 +44,11 @@ yarn-error.log*
 # approvals. .claude/settings.json (the shared one) stays tracked.
 .claude/settings.local.json
 
+# impeccable skill — machine-local artifacts (shared .impeccable/config.json
+# stays tracked; the consent flag and session cache are per-machine)
+.impeccable/config.local.json
+.impeccable/hook.cache.json
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

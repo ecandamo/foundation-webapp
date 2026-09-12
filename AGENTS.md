@@ -33,10 +33,16 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - src/hooks — Custom React hooks
 - src/types — TypeScript type definitions
 - src/styles — Reference tokens and shared style utilities only (live theme is in src/app/globals.css)
+- public/fonts — Self-hosted brand fonts (Mulish, Questrial, JetBrains Mono)
+- public/logos — Brand logo SVGs (navy, white, green, inline + plus mark)
+- docs/design-system — Design system reference (DESIGN.md, brand.json, tokens.css, ui-kit)
 
 ## Design System
 - Live design system lives in src/app/globals.css — edit there for any style changes
-- src/styles/design-tokens.ts is a reference document only, not the live source
+- Fonts are self-hosted from public/fonts/ (declared as @font-face in globals.css) — never add a Google Fonts CDN import or link
+- src/styles/design-tokens.ts is a TypeScript reference document only, not the live source
+- docs/design-system/DESIGN.md is the authoritative design system reference — read it before writing any UI; brand.json (machine-readable) and tokens.css (raw token mirror) sit beside it, and ui-kit/ is an applied component reference
+- No dark theme: the API system defines light only — do not add a `.dark` theme or `dark:` utilities
 - Maintain consistent spacing, colors, and typography across all components
 - Apply tokens with intention — always refer to Design Philosophy for how to use them
 

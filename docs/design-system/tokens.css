@@ -1,0 +1,108 @@
+/* =============================================================
+   API design system — runtime tokens
+   -------------------------------------------------------------
+   Extracted verbatim from DESIGN.md section 1 ("Tokens").
+   If you change a value here, change it there too — the doc is
+   the reference, this file is what ships.
+
+   Font URLs assume the 9 woff2 files are served from /fonts/.
+   If you serve them elsewhere, change the 9 url() prefixes below
+   and nothing else.
+   ============================================================= */
+
+/* ---------- brand faces: self-hosted, never a CDN ---------- */
+@font-face { font-family: 'Mulish'; font-style: normal; font-weight: 300; font-display: swap; src: url('/fonts/mulish-300.woff2') format('woff2'); }
+@font-face { font-family: 'Mulish'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/mulish-400.woff2') format('woff2'); }
+@font-face { font-family: 'Mulish'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/mulish-500.woff2') format('woff2'); }
+@font-face { font-family: 'Mulish'; font-style: normal; font-weight: 600; font-display: swap; src: url('/fonts/mulish-600.woff2') format('woff2'); }
+@font-face { font-family: 'Mulish'; font-style: normal; font-weight: 700; font-display: swap; src: url('/fonts/mulish-700.woff2') format('woff2'); }
+@font-face { font-family: 'Mulish'; font-style: normal; font-weight: 800; font-display: swap; src: url('/fonts/mulish-800.woff2') format('woff2'); }
+@font-face { font-family: 'Questrial'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/questrial-400.woff2') format('woff2'); }
+@font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/jetbrains-mono-400.woff2') format('woff2'); }
+@font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/jetbrains-mono-500.woff2') format('woff2'); }
+
+:root {
+  /* ---------- the five brand anchors ---------- */
+  --api-navy:       #273B6E;   /* primary — serious, executive */
+  --api-green:      #78BC43;   /* secondary — operational, "go" */
+  --api-gray:       #7F7F7F;
+  --api-light-gray: #D4D9E1;
+  --api-black:      #0B1020;
+
+  /* ---------- ramps (derive in-betweens with oklch(); never invent a hex) ---------- */
+  --navy-50:  #EEF1F8; --navy-100: #D9DFEE; --navy-200: #B3BFDC; --navy-300: #8592BE;
+  --navy-400: #556C9E; --navy-500: #273B6E; --navy-600: #1F3160; --navy-700: #18264B;
+  --navy-800: #121D3A; --navy-900: #0B1428;
+
+  --green-50:  #F2FAEA; --green-100: #DCF1C4; --green-200: #BAE391; --green-300: #9CD668;
+  --green-400: #8AC852; --green-500: #78BC43; --green-600: #61A331; --green-700: #4A8524;
+  --green-800: #35641A; --green-900: #244611;
+
+  --ink-50:  #F7F8FB; --ink-100: #EEF0F5; --ink-200: #D4D9E1; --ink-300: #B6BECB;
+  --ink-400: #8C95A6; --ink-500: #7F7F7F; --ink-600: #5B6472; --ink-700: #3F4754;
+  --ink-800: #262D39; --ink-900: #11151E;
+
+  /* ---------- semantic surface + ink ---------- */
+  --bg: #FFFFFF;          --bg-subtle: #F7F8FB;     --bg-muted: #EEF0F5;
+  --surface-dark: #0B1428;
+  --fg: #11151E;          --fg-muted: #3F4754;      --fg-subtle: #7F7F7F;
+
+  --primary: #273B6E;     --primary-hover: #1F3160; --primary-active: #18264B;
+  --primary-fg: #FFFFFF;
+  --accent: #78BC43;      --accent-hover: #8AC852;  --accent-active: #9CD668;
+  --accent-fg: #0B1428;
+
+  /* green text needs a different step per surface — see section 2 */
+  --green-on-light: #35641A;  /* green-800, the only step passing AA on all light surfaces */
+  --green-on-navy:  #8AC852;  /* green-400 */
+
+  --border: #E4E7EE;      --border-soft: #EEF0F5;   --border-strong: #B6BECB;
+  --separator: #D4D9E1;   --row-hover: #FAFBFD;
+  --ring: color-mix(in oklab, #273B6E 45%, transparent);
+
+  /* ---------- status ---------- */
+  --success: #2E8F3E; --success-bg: #E9F6EC;
+  --warning: #C47A0B; --warning-bg: #FDF3E0;
+  --danger:  #C6342C; --danger-bg:  #FBECEB;
+  --info:    #273B6E; --info-bg:    #EEF1F8;
+
+  /* ---------- type ---------- */
+  --font-sans:    'Mulish', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Mulish', ui-sans-serif, system-ui, sans-serif;
+  --font-docs:    'Questrial', ui-sans-serif, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --text-xs: 12px; --text-sm: 14px; --text-base: 16px; --text-md: 18px;
+  --text-lg: 20px; --text-xl: 24px; --text-2xl: 30px; --text-3xl: 38px;
+  --text-4xl: 48px; --text-5xl: 60px; --text-6xl: 76px;
+
+  --leading-tight: 1.1; --leading-snug: 1.25; --leading-normal: 1.5; --leading-relaxed: 1.65;
+  --tracking-tight: -0.02em; --tracking-normal: 0; --tracking-wide: 0.04em; --tracking-widest: 0.12em;
+
+  /* ---------- space: 4px base ---------- */
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px; --sp-5: 20px;
+  --sp-6: 24px; --sp-7: 28px; --sp-8: 32px; --sp-10: 40px; --sp-12: 48px;
+  --sp-16: 64px; --sp-20: 80px; --sp-24: 96px;
+
+  /* ---------- shape ---------- */
+  --radius-xs: 3px;  --radius-sm: 6px;  --radius-md: 10px; --radius-lg: 14px;
+  --radius-xl: 20px; --radius-2xl: 28px; --radius-pill: 9999px;
+  --border-width: 1px;
+
+  /* ---------- elevation: navy-tinted, never neutral black ---------- */
+  --shadow-xs: 0 1px 2px 0 rgb(39 59 110 / 0.05);
+  --shadow-sm: 0 1px 2px 0 rgb(39 59 110 / 0.06), 0 1px 3px 0 rgb(39 59 110 / 0.05);
+  --shadow-md: 0 4px 10px -2px rgb(39 59 110 / 0.10), 0 2px 4px -2px rgb(39 59 110 / 0.06);
+  --shadow-lg: 0 12px 24px -6px rgb(39 59 110 / 0.14), 0 4px 8px -4px rgb(39 59 110 / 0.08);
+  --shadow-xl: 0 24px 48px -12px rgb(39 59 110 / 0.22);
+  --shadow-ring: 0 0 0 4px color-mix(in oklab, #273B6E 18%, transparent); /* focus ring — DESIGN.md §5 */
+
+  /* ---------- motion ---------- */
+  --dur-fast: 120ms; --dur-base: 180ms; --dur-slow: 280ms;
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.5, 0, 0.2, 1);
+
+  /* ---------- app shell ---------- */
+  --sidebar-w: 232px; --topbar-h: 64px; --content-max: 1280px;
+  --control-h: 40px;  --touch-min: 44px;
+}

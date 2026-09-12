@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>API — Applied UI kit · ACES operations console</title>
+
+<!-- The design system's token foundation: colours, type, spacing, radii,
+     shadows, motion, plus @font-face for the 9 self-hosted brand faces.
+     Opened from disk the brand faces fall back to system fonts (they load
+     from /fonts/ in the app); every other token resolves normally. -->
+<link rel="stylesheet" href="../tokens.css">
+<!-- Component styles for this kit -->
+<link rel="stylesheet" href="app.css">
+
+<style>
+  /* ── Entry-surface styles ──────────────────────────────────────────
+     Kept in the entry so the composed surface reviews faithfully on its
+     own. Every value resolves to a design-system token. */
+
+  html, body, #root { height: 100%; }
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    color: var(--fg);
+    background: var(--bg-subtle);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* The composed app fills the viewport below a thin review header. */
+  #root { display: flex; flex-direction: column; }
+
+  .ak-reviewbar {
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    flex-wrap: wrap;
+    padding: var(--sp-3) var(--sp-6);
+    background: var(--bg);
+    border-bottom: 1px solid var(--separator);
+  }
+  .ak-reviewbar__id {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    min-width: 0;
+  }
+  /* The navy variant is used here rather than the currentColor "inline"
+     variant: an external SVG loaded through <img> cannot inherit the
+     host document's `color`, so currentColor would fall back to black. */
+  .ak-reviewbar__logo {
+    width: 54px;
+    height: auto;
+    display: block;
+  }
+  .ak-reviewbar__title {
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    letter-spacing: var(--tracking-tight);
+    color: var(--fg);
+  }
+  .ak-reviewbar__sub {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--fg-subtle);
+    letter-spacing: var(--tracking-wide);
+  }
+  .ak-reviewbar__parts {
+    display: flex;
+    gap: var(--sp-2);
+    flex-wrap: wrap;
+  }
+  .ak-reviewbar__part {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    background: var(--bg-muted);
+    border-radius: var(--radius-xs);
+    padding: 3px var(--sp-2);
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* The shell itself takes the remaining height. */
+  .ak-appwrap { flex: 1; min-height: 0; }
+  .ak-appwrap > .ak-shell { height: 100%; }
+
+  @media (max-width: 860px) {
+    .ak-reviewbar { padding: var(--sp-3) var(--sp-4); }
+    .ak-reviewbar__parts { display: none; }
+  }
+</style>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<!-- Components are inlined below as `type="text/babel"` blocks rather than
+     loaded from separate files. Babel-standalone fetches external `src`
+     scripts over XHR, which browsers block on the file:// protocol — so an
+     external-file version renders only from a web server. Inlining keeps this
+     kit a single, self-contained page that opens with a double-click. Each
+     block ends with Object.assign(window, …) so the later blocks and the
+     entry script can see it; they load in document (dependency) order. -->
+
+<script type="text/babel">
+/**
+ * Icon — Lucide path data at a 24×24 viewBox, 2px stroke, round caps, currentColor.
+ * The system allows no other icon source: no emoji, no unicode hacks, no PNG icons.
+ */
+const ICONS = {
+  grid: <><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></>,
+  building: <><path d="M3 21h18M5 21V7l7-4 7 4v14" /><path d="M9 21v-6h6v6" /></>,
+  plus: <><path d="M12 5v14M5 12h14" /></>,
+  alert: <><path d="M12 9v4M12 17h.01" /><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z" /></>,
+  receipt: <><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z" /><path d="M8 7h8M8 11h8M8 15h5" /></>,
+  users: <><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /></>,
+  search: <><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></>,
+  send: <><path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" /></>,
+  check: <><path d="M20 6 9 17l-5-5" /></>,
+  bell: <><path d="M10.27 21a2 2 0 0 0 3.46 0" /><path d="M3.26 15.33A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.67C19.6 14.03 19 12 19 10a7 7 0 0 0-14 0c0 2-.6 4.03-1.74 5.33Z" /></>,
+  chevron: <><path d="m9 18 6-6-6-6" /></>,
+  paperclip: <><path d="M13.23 2.77a4.5 4.5 0 0 1 6.36 6.37l-9.19 9.19a6.5 6.5 0 0 1-9.19-9.2l8.49-8.48" /></>,
+  filter: <><path d="M3 6h18M7 12h10M10 18h4" /></>,
+};
+
+function Icon({ name, size = 18, className = '', style = {} }) {
+  return (
+    <svg
+      width={size} height={size} viewBox="0 0 24 24"
+      fill="none" stroke="currentColor" strokeWidth="2"
+      strokeLinecap="round" strokeLinejoin="round"
+      className={className} style={{ flex: 'none', ...style }}
+      aria-hidden="true" focusable="false"
+    >
+      {ICONS[name] || ICONS.grid}
+    </svg>
+  );
+}
+
+Object.assign(window, { Icon, ICONS });
+</script>
+
+<script type="text/babel">
+/**
+ * Sidebar — navigation role.
+ * Fixed 232px, navy-900 surface. Green is the active marker (a 3px rail), never a fill.
+ * Nav labels go to full white on hover — text contrast rises, never dims.
+ */
+function Sidebar({ active, onNavigate }) {
+  const items = [
+    { id: 'operations', label: 'Operations', icon: 'grid' },
+    { id: 'properties', label: 'Properties', icon: 'building' },
+    { id: 'sourcing', label: 'Sourcing', icon: 'plus' },
+    { id: 'irops', label: 'IROPS', icon: 'alert', badge: 3 },
+    { id: 'crew', label: 'Crew', icon: 'users' },
+    { id: 'billing', label: 'Billing', icon: 'receipt' },
+  ];
+
+  return (
+    <aside className="ak-sidebar" data-od-id="app-sidebar">
+      <div className="ak-sidebar__brand">
+        {/* Real preserved asset — the reversed API mark on a navy surface */}
+        <img
+          src="../../../public/logos/api-logo-white.svg"
+          width="166" height="85"
+          alt="Accommodations Plus International"
+          className="ak-sidebar__logo"
+        />
+      </div>
+
+      <nav className="ak-sidebar__nav" aria-label="Main">
+        {items.map((it) => (
+          <a
+            key={it.id}
+            href={`#${it.id}`}
+            aria-current={active === it.id ? 'page' : undefined}
+            className="ak-navitem"
+            onClick={(e) => { e.preventDefault(); onNavigate(it.id); }}
+          >
+            <Icon name={it.icon} />
+            <span className="ak-navitem__label">{it.label}</span>
+            {it.badge ? <span className="ak-navitem__badge">{it.badge}</span> : null}
+          </a>
+        ))}
+      </nav>
+
+      <div className="ak-sidebar__foot">
+        <span className="ak-eyebrow ak-sidebar__live">
+          <i className="ak-pulse" />
+          Live · 84 properties
+        </span>
+      </div>
+    </aside>
+  );
+}
+
+Object.assign(window, { Sidebar });
+</script>
+
+<script type="text/babel">
+/**
+ * EventList — the list-rail role (the selectable event list beside the workspace).
+ * A scannable, selectable list of live IROPS events beside the main workspace.
+ * Each row leads with the flight number in tabular mono, then the impact in
+ * explicit units. Status is a badge, never a bare colour.
+ */
+function EventList({ events, selectedId, onSelect, filter, onFilter }) {
+  const filters = ['All', 'Airlines', 'Cargo', 'Rail', 'Cruise'];
+
+  return (
+    <section className="ak-rail" data-od-id="event-rail">
+      <header className="ak-rail__head">
+        <div className="ak-card__title">
+          <span className="ak-icontile ak-icontile--danger"><Icon name="alert" size={20} /></span>
+          <div>
+            <h2 className="ak-rail__h">Live events</h2>
+            <span className="ak-rail__sub">{events.length} open · updated 2 min ago</span>
+          </div>
+        </div>
+      </header>
+
+      <div className="ak-rail__filters" role="group" aria-label="Filter events by segment">
+        {filters.map((f) => (
+          <button
+            key={f}
+            type="button"
+            className="ak-chip"
+            aria-pressed={filter === f}
+            onClick={() => onFilter(f)}
+          >
+            {f}
+          </button>
+        ))}
+      </div>
+
+      <ul className="ak-rail__list">
+        {events.map((ev) => {
+          const selected = ev.id === selectedId;
+          return (
+            <li key={ev.id}>
+              <button
+                type="button"
+                className="ak-railrow"
+                aria-current={selected ? 'true' : undefined}
+                onClick={() => onSelect(ev.id)}
+              >
+                <span className="ak-railrow__top">
+                  <span className="ak-railrow__flight">{ev.flight}</span>
+                  <span className={`ak-badge ak-badge--${ev.tone}`}>{ev.status}</span>
+                </span>
+                <span className="ak-railrow__prop">{ev.property}</span>
+                <span className="ak-railrow__meta">
+                  <span>{ev.pax} pax</span>
+                  <span aria-hidden="true">·</span>
+                  <span>{ev.rooms} rooms</span>
+                  <span aria-hidden="true">·</span>
+                  <span>{ev.rate}</span>
+                </span>
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  );
+}
+
+Object.assign(window, { EventList });
+</script>
+
+<script type="text/babel">
+/**
+ * MessageBubble — the message/note role.
+ * One entry in the operational handoff thread. Operators, the sourcing desk and
+ * the system all post here, so a note is either inbound (light card, left) or
+ * authored by the current operator (navy card, right). System notes are a third,
+ * quieter treatment: mono eyebrow, no bubble chrome.
+ */
+function MessageBubble({ note }) {
+  if (note.kind === 'system') {
+    return (
+      <li className="ak-note ak-note--system" data-od-id={`note-${note.id}`}>
+        <span className="ak-eyebrow ak-note__sys">
+          <Icon name="check" size={14} />
+          {note.body}
+          <span className="ak-note__time">{note.time}</span>
+        </span>
+      </li>
+    );
+  }
+
+  const mine = note.kind === 'mine';
+  return (
+    <li className={`ak-note ${mine ? 'ak-note--mine' : 'ak-note--theirs'}`} data-od-id={`note-${note.id}`}>
+      <div className="ak-note__bubble">
+        <header className="ak-note__head">
+          <span className="ak-avatar" aria-hidden="true">{note.initials}</span>
+          <span className="ak-note__who">{note.author}</span>
+          <span className="ak-note__role">{note.role}</span>
+          <span className="ak-note__time">{note.time}</span>
+        </header>
+        <p className="ak-note__body">{note.body}</p>
+        {note.attachment ? (
+          <span className="ak-note__attach">
+            <Icon name="paperclip" size={14} />
+            <span className="ak-mono">{note.attachment}</span>
+          </span>
+        ) : null}
+      </div>
+    </li>
+  );
+}
+
+Object.assign(window, { MessageBubble });
+</script>
+
+<script type="text/babel">
+/**
+ * InputBar — the composer role.
+ * The operator's action surface: a note field plus the decision actions for the
+ * selected event. Exactly one solid button carries the primary action; everything
+ * else is secondary or ghost.
+ */
+function InputBar({ value, onChange, onSend, onAccept }) {
+  const canSend = value.trim().length > 0;
+
+  return (
+    <footer className="ak-composer" data-od-id="input-bar">
+      <form
+        className="ak-composer__form"
+        onSubmit={(e) => { e.preventDefault(); if (canSend) onSend(); }}
+      >
+        <label className="ak-sr" htmlFor="ak-note">Add a handoff note</label>
+        <input
+          id="ak-note"
+          className="ak-input ak-composer__input"
+          placeholder="Add a handoff note…"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+        />
+        <button
+          type="button"
+          className="ak-btn ak-btn--icon ak-btn--secondary"
+          aria-label="Attach rate sheet"
+        >
+          <Icon name="paperclip" />
+        </button>
+        <button
+          type="submit"
+          className="ak-btn ak-btn--secondary"
+          disabled={!canSend}
+        >
+          <Icon name="send" size={16} />
+          Post note
+        </button>
+      </form>
+
+      <div className="ak-composer__actions">
+        <span className="ak-composer__hint">
+          Releasing the block notifies 22 crew and the sourcing desk.
+        </span>
+        <div className="ak-composer__btns">
+          <button type="button" className="ak-btn ak-btn--ghost">Review alternatives</button>
+          <button type="button" className="ak-btn ak-btn--primary" onClick={onAccept}>
+            <Icon name="check" size={16} />
+            Accept &amp; notify
+          </button>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+Object.assign(window, { InputBar });
+</script>
+
+<script type="text/babel">
+/**
+ * ChatArea — the conversation-area role.
+ * The operational handoff thread for the selected event: a scrollable list of
+ * MessageBubble entries closed by the InputBar composer. Ops, the sourcing desk
+ * and the system all post here, which is why the thread carries three note
+ * treatments rather than two.
+ */
+function ChatArea({ event, notes, draft, onDraft, onSend, onAccept }) {
+  const endRef = React.useRef(null);
+
+  // Keep the newest note in view as the thread grows. scrollTop is used
+  // deliberately instead of scrollIntoView, which can break embedded previews.
+  React.useEffect(() => {
+    const box = endRef.current;
+    if (box) box.scrollTop = box.scrollHeight;
+  }, [notes.length]);
+
+  return (
+    <section className="ak-card ak-chat" data-od-id="chat-area">
+      <header className="ak-card__head">
+        <div className="ak-card__title">
+          <span className="ak-icontile"><Icon name="users" size={20} /></span>
+          <div>
+            <h2 className="ak-card__h">Handoff thread</h2>
+            <span className="ak-card__sub">
+              {event.flight} · {event.property} · sourcing desk and ops
+            </span>
+          </div>
+        </div>
+        <span className="ak-eyebrow">{notes.length} notes</span>
+      </header>
+
+      <div className="ak-chat__scroll" ref={endRef}>
+        <ul className="ak-thread">
+          {notes.map((n) => <MessageBubble key={n.id} note={n} />)}
+        </ul>
+      </div>
+
+      <InputBar
+        value={draft}
+        onChange={onDraft}
+        onSend={onSend}
+        onAccept={onAccept}
+      />
+    </section>
+  );
+}
+
+Object.assign(window, { ChatArea });
+</script>
+
+<script type="text/babel">
+/**
+ * WorkspaceArea — the main working surface.
+ * Composes the 64px topbar, the KPI row, a navy data-hero carrying the "+"
+ * motif, a computed bar chart, and the ChatArea handoff thread.
+ */
+function WorkspaceArea({ event, notes, draft, onDraft, onSend, onAccept }) {
+  const kpis = [
+    { label: 'Rooms blocked', value: '3,241', unit: 'rooms', delta: '▲ +12.4%', tone: 'up', period: 'vs last month' },
+    { label: 'Average rate', value: '$138', unit: '/room-night', delta: '▼ −4.2%', tone: 'up', period: 'vs last month' },
+    { label: 'Crew relocated', value: '1,806', unit: 'pax', delta: '▲ +9.1%', tone: 'up', period: 'vs last month' },
+    { label: 'Reconciled', value: '98.2', unit: '%', delta: '— 0.0%', tone: 'flat', period: 'vs last month' },
+  ];
+
+  const segments = [
+    { label: 'Airlines', v: 2104, alt: false },
+    { label: 'Cargo', v: 618, alt: false },
+    { label: 'Rail', v: 341, alt: false },
+    { label: 'Cruise', v: 178, alt: false },
+    { label: 'Network total', v: 3241, alt: true },
+  ];
+  const max = 3241;
+
+  return (
+    <main className="ak-main" data-od-id="workspace-area">
+      <header className="ak-topbar" data-od-id="app-topbar">
+        <div className="ak-topbar__crumbs">
+          <span className="ak-eyebrow">Operations</span>
+          <Icon name="chevron" size={14} />
+          <span className="ak-topbar__here">{event.flight} · {event.property}</span>
+        </div>
+        <div className="ak-topbar__tools">
+          <div className="ak-search">
+            <Icon name="search" size={16} />
+            <label className="ak-sr" htmlFor="ak-search">Search flights and properties</label>
+            <input id="ak-search" className="ak-search__input" placeholder="Search flights, properties, PNRs…" />
+          </div>
+          <button type="button" className="ak-btn ak-btn--icon ak-btn--secondary" aria-label="Notifications">
+            <Icon name="bell" />
+          </button>
+          <span className="ak-avatar ak-avatar--topbar" aria-hidden="true">EC</span>
+        </div>
+      </header>
+
+      <div className="ak-main__scroll">
+        {/* KPI row — 16px gaps, number first, signed delta with its period */}
+        <section className="ak-kpis" aria-label="Network metrics" data-od-id="kpi-row">
+          {kpis.map((k) => (
+            <article className="ak-kpi" key={k.label}>
+              <span className="ak-kpi__lab">{k.label}</span>
+              <span className="ak-kpi__val">
+                {k.value}<span className="ak-kpi__unit">{k.unit}</span>
+              </span>
+              <span className="ak-kpi__foot">
+                <span className={`ak-delta ak-delta--${k.tone}`}>{k.delta}</span>
+                <span className="ak-kpi__period">{k.period}</span>
+              </span>
+            </article>
+          ))}
+        </section>
+
+        {/* Navy data hero — the one place the oversized "+" appears */}
+        <section className="ak-hero" data-od-id="data-hero">
+          <span className="ak-hero__plus" aria-hidden="true">+</span>
+          <div className="ak-hero__in">
+            <span className="ak-eyebrow ak-hero__eyebrow">
+              <i className="ak-pulse" />
+              IROPS · {event.flight}
+            </span>
+            <p className="ak-hero__line">
+              <b>{event.pax} crew impacted.</b> Suggested relocation:{' '}
+              {event.property} — {event.rooms} rooms available at {event.rate}.
+            </p>
+            <div className="ak-hero__btns">
+              <button type="button" className="ak-btn ak-btn--accent" onClick={onAccept}>
+                <Icon name="check" size={16} />
+                Release block
+              </button>
+              <button type="button" className="ak-btn ak-btn--onnavy">Compare properties</button>
+            </div>
+          </div>
+        </section>
+
+        {/* Bar chart — every length computed from --v / --max, filled encoding */}
+        <section className="ak-card" data-od-id="segment-chart">
+          <header className="ak-card__head">
+            <div className="ak-card__title">
+              <span className="ak-icontile"><Icon name="grid" size={20} /></span>
+              <h2 className="ak-card__h">Rooms blocked by segment</h2>
+            </div>
+            <button type="button" className="ak-chip" aria-pressed="true">
+              <Icon name="filter" size={14} /> This week
+            </button>
+          </header>
+          <div className="ak-chart" style={{ '--max': max }}>
+            {segments.map((s) => (
+              <div className="ak-bar-row" key={s.label}>
+                <span className="ak-bar-label">{s.label}</span>
+                <div className="ak-bar-track">
+                  <div className={`ak-bar${s.alt ? ' ak-bar--alt' : ''}`} style={{ '--v': s.v }} />
+                </div>
+                <span className="ak-bar-value">{s.v.toLocaleString('en-US')} rooms</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* The handoff conversation — MessageBubble rows + the composer */}
+        <ChatArea
+          event={event}
+          notes={notes}
+          draft={draft}
+          onDraft={onDraft}
+          onSend={onSend}
+          onAccept={onAccept}
+        />
+      </div>
+    </main>
+  );
+}
+
+Object.assign(window, { WorkspaceArea });
+</script>
+
+<script type="text/babel">
+/**
+ * AppShell — the app-shell role.
+ * Composes every other component into one product-like surface: the 232px
+ * sidebar, the event rail, and the main workspace with its 64px topbar and
+ * composer. Owns the app's selection and draft state.
+ */
+function AppShell() {
+  const EVENTS = [
+    { id: 'jl006', flight: 'JL 006', property: 'Pullman HND', pax: 22, rooms: 14, rate: '$138 /room-night', status: 'IROPS', tone: 'danger' },
+    { id: 'ac872', flight: 'AC 872', property: 'Sofitel CDG', pax: 31, rooms: 22, rate: '$164 /room-night', status: 'CONFIRMED', tone: 'success' },
+    { id: 'ei104', flight: 'EI 104', property: 'Clayton Ballsbridge', pax: 12, rooms: 9, rate: '$121 /room-night', status: 'PENDING RATE', tone: 'warning' },
+    { id: 'am401', flight: 'AM 401', property: 'Camino Real MEX', pax: 44, rooms: 31, rate: '$96 /room-night', status: 'CONFIRMED', tone: 'success' },
+    { id: 'ba219', flight: 'BA 219', property: 'Hilton LHR T5', pax: 18, rooms: 12, rate: '$152 /room-night', status: 'SOURCING', tone: 'info' },
+  ];
+
+  const BASE_NOTES = [
+    { id: 'n1', kind: 'system', body: 'IROPS triggered — JL 006 delayed +5h at HND.', time: '09:12' },
+    { id: 'n2', kind: 'theirs', author: 'Mara Oyelaran', initials: 'MO', role: 'Sourcing desk', time: '09:18',
+      body: 'Pullman HND confirms 14 rooms at $138 /room-night, held 90 minutes. Two singles short of the full block.' },
+    { id: 'n3', kind: 'mine', author: 'You', initials: 'EC', role: 'Ops director', time: '09:21',
+      body: 'Take the 14 and split the remaining 8 to Villa Fontaine. Keep both under the same rate addendum.' },
+    { id: 'n4', kind: 'theirs', author: 'Devin Ashcroft', initials: 'DA', role: 'Crew scheduler', time: '09:26',
+      body: 'Rooming list redrawn for 22 pax across both properties. Ground transport booked for 09:55.',
+      attachment: 'JL006-HND-0412-rooming.pdf' },
+  ];
+
+  const [active, setActive] = React.useState('irops');
+  const [selectedId, setSelectedId] = React.useState('jl006');
+  const [filter, setFilter] = React.useState('All');
+  const [draft, setDraft] = React.useState('');
+  const [notes, setNotes] = React.useState(BASE_NOTES);
+
+  const event = EVENTS.find((e) => e.id === selectedId) || EVENTS[0];
+
+  function sendNote() {
+    const body = draft.trim();
+    if (!body) return;
+    setNotes((prev) => prev.concat({
+      id: `n${prev.length + 1}`, kind: 'mine', author: 'You', initials: 'EC',
+      role: 'Ops director', time: 'now', body,
+    }));
+    setDraft('');
+  }
+
+  function accept() {
+    setNotes((prev) => prev.concat({
+      id: `n${prev.length + 1}`, kind: 'system',
+      body: `Block released — ${event.flight}. ${event.pax} crew notified.`, time: 'now',
+    }));
+  }
+
+  return (
+    <div className="ak-shell" data-od-id="app-shell">
+      <Sidebar active={active} onNavigate={setActive} />
+      <EventList
+        events={EVENTS}
+        selectedId={selectedId}
+        onSelect={setSelectedId}
+        filter={filter}
+        onFilter={setFilter}
+      />
+      <WorkspaceArea
+        event={event}
+        notes={notes}
+        draft={draft}
+        onDraft={setDraft}
+        onSend={sendNote}
+        onAccept={accept}
+      />
+    </div>
+  );
+}
+
+Object.assign(window, { AppShell });
+</script>
+
+<script type="text/babel">
+  /**
+   * Entry surface. Composes the modular components loaded above into the
+   * rendered tree: a review header that uses <Icon>, then <AppShell>, which
+   * in turn mounts <Sidebar>, <EventList>, and <WorkspaceArea> (→ <ChatArea>
+   * → <MessageBubble> + <InputBar>).
+   */
+  const { Icon, AppShell } = window;
+
+  function ReviewBar() {
+    const parts = [
+      'AppShell', 'Sidebar', 'EventList', 'WorkspaceArea',
+      'ChatArea', 'MessageBubble', 'InputBar', 'Icon',
+    ];
+    return (
+      <header className="ak-reviewbar" data-od-id="review-bar">
+        <div className="ak-reviewbar__id">
+          {/* Real preserved asset — the navy master mark */}
+          <img
+            src="../../../public/logos/api-logo-navy.svg"
+            width="166" height="85"
+            alt="Accommodations Plus International"
+            className="ak-reviewbar__logo"
+          />
+          <div>
+            <div className="ak-reviewbar__title">Applied UI kit — ACES operations console</div>
+            <div className="ak-reviewbar__sub">
+              Tokens from tokens.css · 8 modular components
+            </div>
+          </div>
+        </div>
+        <div className="ak-reviewbar__parts">
+          {parts.map((p) => (
+            <span className="ak-reviewbar__part" key={p}>{p}</span>
+          ))}
+          <span className="ak-reviewbar__part" title="Lucide icon system">
+            <Icon name="check" size={10} /> Lucide
+          </span>
+        </div>
+      </header>
+    );
+  }
+
+  function Entry() {
+    return (
+      <React.Fragment>
+        <ReviewBar />
+        <div className="ak-appwrap">
+          <AppShell />
+        </div>
+      </React.Fragment>
+    );
+  }
+
+  const root = ReactDOM.createRoot(document.getElementById('root'));
+  root.render(<Entry />);
+</script>
+</body>
+</html>

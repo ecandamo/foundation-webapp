@@ -1,15 +1,24 @@
-/* ── Webfonts ───────────────────────────────────────────────
-   Approved typography for API Global Solutions:
-   • Mulish          — display / UI (replaces Sailec)
-   • Questrial       — documents (replaces Century Gothic)
-   • JetBrains Mono  — data / code / PNRs / money           */
-@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800&family=Questrial&family=JetBrains+Mono:wght@400;500&display=swap');
-
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-@custom-variant dark (&:is(.dark *));
+/* ── Webfonts: self-hosted, never a CDN ─────────────────────
+   Approved typography for API Global Solutions:
+   • Mulish          — display / UI (replaces Sailec)
+   • Questrial       — documents (replaces Century Gothic)
+   • JetBrains Mono  — data / code / PNRs / money
+   Files live in public/fonts/ and are served from /fonts/.
+   Self-hosting keeps the app working offline; all three
+   families are OFL. See docs/design-system/DESIGN.md. */
+@font-face { font-family: 'Mulish'; font-style: normal; font-weight: 300; font-display: swap; src: url('/fonts/mulish-300.woff2') format('woff2'); }
+@font-face { font-family: 'Mulish'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/mulish-400.woff2') format('woff2'); }
+@font-face { font-family: 'Mulish'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/mulish-500.woff2') format('woff2'); }
+@font-face { font-family: 'Mulish'; font-style: normal; font-weight: 600; font-display: swap; src: url('/fonts/mulish-600.woff2') format('woff2'); }
+@font-face { font-family: 'Mulish'; font-style: normal; font-weight: 700; font-display: swap; src: url('/fonts/mulish-700.woff2') format('woff2'); }
+@font-face { font-family: 'Mulish'; font-style: normal; font-weight: 800; font-display: swap; src: url('/fonts/mulish-800.woff2') format('woff2'); }
+@font-face { font-family: 'Questrial'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/questrial-400.woff2') format('woff2'); }
+@font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/jetbrains-mono-400.woff2') format('woff2'); }
+@font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/jetbrains-mono-500.woff2') format('woff2'); }
 
 @theme inline {
   --color-background: var(--background);
@@ -89,7 +98,7 @@
   --shadow-ring:      0 0 0 4px color-mix(in oklab, #273B6E 18%, transparent);
 }
 
-/* ─── Light Theme ─── */
+/* ─── Theme tokens (light — the API system defines no dark theme) ─── */
 :root {
   /* ── Brand palette ── */
   --api-navy:       #273B6E;
@@ -219,80 +228,6 @@
   --dur-fast:    120ms;
   --dur-base:    180ms;
   --dur-slow:    280ms;
-}
-
-/* ─── Dark Theme ─── */
-.dark {
-  /* ── Surfaces ── */
-  --background:         #0B1428;
-  --foreground:         #EEF0F5;
-  --card:               #121D3A;
-  --card-foreground:    #D4D9E1;
-  --popover:            #121D3A;
-  --popover-foreground: #D4D9E1;
-
-  /* ── Brand: lightened navy for dark surfaces ── */
-  --primary:            #8592BE;
-  --primary-foreground: #0B1428;
-
-  /* ── Brand: green stays strong on dark ── */
-  --secondary:            #78BC43;
-  --secondary-foreground: #0B1428;
-
-  /* ── Neutral muted ── */
-  --muted:            #18264B;
-  --muted-foreground: #8C95A6;
-
-  /* ── Accent ── */
-  --accent:            #78BC43;
-  --accent-foreground: #0B1428;
-
-  /* ── Error / destructive ── */
-  --destructive: #E05A52;
-
-  /* ── Chrome ── */
-  --border: rgb(255 255 255 / 10%);
-  --input:  rgb(255 255 255 / 15%);
-  --ring:   color-mix(in oklab, #78BC43 45%, transparent);
-
-  /* ── Charts ── */
-  --chart-1: #8592BE;
-  --chart-2: #78BC43;
-  --chart-3: #E8A130;
-  --chart-4: #B3BFDC;
-  --chart-5: #4A8524;
-
-  /* ── Sidebar ── */
-  --sidebar:                  #080F1E;
-  --sidebar-foreground:       #D4D9E1;
-  --sidebar-primary:          #78BC43;
-  --sidebar-primary-foreground: #0B1428;
-  --sidebar-accent:           #121D3A;
-  --sidebar-accent-foreground: #B6BECB;
-  --sidebar-border:           rgb(255 255 255 / 8%);
-  --sidebar-ring:             color-mix(in oklab, #78BC43 45%, transparent);
-
-  /* ── Semantic status ── */
-  --success:            #4A8524;
-  --success-foreground: #F2FAEA;
-  --warning:            #E8A130;
-  --warning-foreground: #0B1428;
-  --info:               #8592BE;
-  --info-foreground:    #0B1428;
-
-  /* ── Semantic status: soft variant (alerts, badges) ── */
-  --success-bg:               color-mix(in oklab, var(--success) 18%, transparent);
-  --success-border:           color-mix(in oklab, var(--success) 36%, transparent);
-  --success-foreground-soft:  #8AC852;
-  --warning-bg:               color-mix(in oklab, var(--warning) 18%, transparent);
-  --warning-border:           color-mix(in oklab, var(--warning) 36%, transparent);
-  --warning-foreground-soft:  #E8A130;
-  --destructive-bg:           color-mix(in oklab, var(--destructive) 18%, transparent);
-  --destructive-border:       color-mix(in oklab, var(--destructive) 36%, transparent);
-  --destructive-foreground-soft: #E05A52;
-  --info-bg:                  color-mix(in oklab, var(--info) 18%, transparent);
-  --info-border:              color-mix(in oklab, var(--info) 36%, transparent);
-  --info-foreground-soft:     #8592BE;
 }
 
 @layer base {
