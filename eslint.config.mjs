@@ -12,13 +12,15 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
-    // Vendored skill packages (Claude/Cursor/Codex) — third-party code we
-    // don't own or want to hold to this project's lint rules. .cursor/skills
-    // and .claude/skills are symlinks into .agents/skills; ignoring the
-    // symlink paths too keeps ESLint from following them separately.
+    // Vendored skill packages — third-party code we don't own or want to
+    // hold to this project's lint rules. .agents/skills is the real store;
+    // .claude/skills are symlinks into it. Ignoring both paths keeps ESLint
+    // from following the symlinks separately.
     ".agents/**",
-    ".cursor/**",
     ".claude/**",
+    // Design-system reference material — the ui-kit is a standalone browser
+    // demo (globals via Babel, not ES modules), not app source.
+    "docs/**",
   ]),
 ]);
 

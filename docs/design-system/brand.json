@@ -1,0 +1,225 @@
+{
+  "name": "API",
+  "tagline": "Crew accommodation and travel logistics, run like software.",
+  "description": "Accommodations Plus International (API) builds crew-accommodation and travel-logistics technology for airlines, cargo carriers, rail operators, and cruise lines — hotel sourcing, crew lodging, ground transportation, irregular-operations (IROPS) response, and billing at scale. API is a tech-first company supported by top-notch services, and the visual system reads like modern SaaS: confident, data-dense, calm, and unmistakably navy-and-green. Geometry-first, photography-second — the \"+\" motif, the palette, dot-grids, and oversized type do the work imagery usually would.",
+  "sourceUrl": "designmd://api",
+  "seed": {
+    "colorPrimary": "#273B6E",
+    "colorSuccess": "#2E8F3E",
+    "colorWarning": "#C47A0B",
+    "colorError": "#C6342C",
+    "colorInfo": "#273B6E",
+    "colorTextBase": "#11151E",
+    "colorBgBase": "#FFFFFF",
+    "fontFamily": "Mulish, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif",
+    "fontFamilyCode": "'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace",
+    "fontSize": 16,
+    "borderRadius": 10,
+    "sizeUnit": 4,
+    "sizeStep": 4,
+    "controlHeight": 40,
+    "lineWidth": 1,
+    "motionUnit": 0.1,
+    "motionBase": 0,
+    "wireframe": false,
+    "motion": true
+  },
+  "logo": {
+    "primary": "public/logos/api-logo-navy.svg",
+    "alternates": [
+      "public/logos/api-logo-green.svg",
+      "public/logos/api-logo-white.svg",
+      "public/logos/api-logo-inline.svg",
+      "public/logos/api-plus-mark.svg"
+    ],
+    "notes": "The API mark is an 'API' letterform on a 166.22 × 85.48 viewBox whose 'A' carries the brand '+' as two 3.5px round-cap strokes. Use api-logo-navy.svg (#273B6E) on white and light ink surfaces; api-logo-white.svg on navy, dark, or imagery; api-logo-green.svg only where green is the single ink. api-logo-inline.svg uses fill/stroke currentColor — prefer it when the mark must inherit text color. Never recolor outside these fills, never stretch, never add effects, and never rebuild the mark from type. In print chrome the mark sits top-right of the page header at 22px tall. api-plus-mark.svg is the standalone '+' brand element, not an icon: use it at 80px+ as tonal low-contrast decoration, never as a small glyph."
+  },
+  "colors": [
+    {
+      "role": "background",
+      "hex": "#ffffff",
+      "oklch": "oklch(100% 0 0)",
+      "name": "Background",
+      "usage": "Page canvas and card fills. Backgrounds are flat — no photographic UI backgrounds, no gradients."
+    },
+    {
+      "role": "surface",
+      "hex": "#f7f8fb",
+      "oklch": "oklch(97.92% 0.0041 271.37)",
+      "name": "Surface",
+      "usage": "Page chrome and subtle panel tint behind white cards. The cool navy-tinted neutral, ink-50."
+    },
+    {
+      "role": "foreground",
+      "hex": "#11151e",
+      "oklch": "oklch(19.60% 0.0193 265.99)",
+      "name": "Foreground",
+      "usage": "Body text and headings. 18.26:1 on background."
+    },
+    {
+      "role": "muted",
+      "hex": "#3f4754",
+      "oklch": "oklch(39.58% 0.0244 260.11)",
+      "name": "Muted",
+      "usage": "Secondary text, metadata, and captions. 9.37:1 on background — safe for small text. The lighter subtle tier (#7F7F7F, 4.00:1) is for large text, icons, and disabled states only."
+    },
+    {
+      "role": "border",
+      "hex": "#e4e7ee",
+      "oklch": "oklch(92.77% 0.0100 267.36)",
+      "name": "Border",
+      "usage": "Control borders. Interior dividers use #EEF0F5; structural separators use #D4D9E1."
+    },
+    {
+      "role": "accent",
+      "hex": "#273b6e",
+      "oklch": "oklch(36.39% 0.0917 265.90)",
+      "name": "API Navy",
+      "usage": "Primary — the serious, executive voice. Carries primary buttons, sidebars, nav chrome, and data-hero surfaces. White on navy is 10.84:1. Darkens on hover (#1F3160, 12.60:1) and active (#18264B, 14.81:1) — contrast rises."
+    },
+    {
+      "role": "accent-secondary",
+      "hex": "#78bc43",
+      "oklch": "oklch(72.49% 0.1685 133.91)",
+      "name": "API Green",
+      "usage": "Operational, active, 'go'. Used sparingly — active nav markers, primary CTA inside navy surfaces, live-activity pulses, positive deltas. Text on green must be navy-black #0B1428 (7.92:1); white on green is 2.31:1 and fails. Green LIGHTENS on hover (#8AC852, 9.14:1) and active (#9CD668, 10.68:1) — darkening it would lose contrast against its dark ink."
+    }
+  ],
+  "typography": {
+    "display": {
+      "family": "Mulish",
+      "fallbacks": [
+        "ui-sans-serif",
+        "system-ui",
+        "-apple-system",
+        "Segoe UI",
+        "sans-serif"
+      ],
+      "weights": [
+        300,
+        400,
+        500,
+        600,
+        700,
+        800
+      ]
+    },
+    "body": {
+      "family": "Mulish",
+      "fallbacks": [
+        "ui-sans-serif",
+        "system-ui",
+        "-apple-system",
+        "Segoe UI",
+        "sans-serif"
+      ],
+      "weights": [
+        300,
+        400,
+        500,
+        600,
+        700,
+        800
+      ]
+    },
+    "mono": {
+      "family": "JetBrains Mono",
+      "fallbacks": [
+        "ui-monospace",
+        "SF Mono",
+        "Menlo",
+        "monospace"
+      ],
+      "weights": [
+        400,
+        500
+      ]
+    }
+  },
+  "voice": {
+    "adjectives": [
+      "operational",
+      "confident",
+      "practical",
+      "calm",
+      "data-dense",
+      "precise"
+    ],
+    "tone": "Operational, confident, practical. API talks to dispatchers, crew schedulers, ops directors, and finance controllers — not consumers. Copy should sound like it belongs on an operations console: second person, imperative verbs, explicit numbers, no marketing fluff, no emoji.",
+    "messagingPillars": [
+      "Tech-first, service-backed. API is a software company supported by top-notch sourcing, planning, operations, and billing services — lead with the platform, substantiate with the service.",
+      "Operational truth over persuasion. State the flight, the crew count, the room count, the rate, and the deadline; the numbers carry the message.",
+      "Built for scale and disruption. Hotel sourcing, crew lodging, ground transport, IROPS response, and billing across airlines, cargo, rail, and cruise.",
+      "Second person and imperative. Interfaces and copy tell the operator what to do next — 'Release block', 'Accept & notify', 'Reconcile'."
+    ],
+    "vocabulary": {
+      "use": [
+        "crew lodging",
+        "rooming list",
+        "room-night",
+        "block",
+        "release block",
+        "reconcile",
+        "IROPS",
+        "disrupted passenger",
+        "pax",
+        "rate addendum",
+        "sourcing",
+        "ground transportation",
+        "accept & notify",
+        "positive delta"
+      ],
+      "avoid": [
+        "unlock",
+        "supercharge",
+        "effortless",
+        "seamless",
+        "revolutionary",
+        "game-changing",
+        "just",
+        "simply",
+        "delight",
+        "Uh oh",
+        "lots of",
+        "many",
+        "emoji of any kind"
+      ]
+    }
+  },
+  "imagery": {
+    "style": "Geometry-first, photography-second. The '+' motif, the navy-and-green palette, 22px dot-grids, and oversized type do the work imagery normally would. Resist the impulse to add stock photos.",
+    "subjects": [
+      "Real properties, real crew, real operational scenes — case-study heroes only",
+      "Leadership and about-page headshots",
+      "Product UI screenshots at 16:10",
+      "Geometric '+' washes, dot-grids, and oversized watermarks in place of photography"
+    ],
+    "treatment": "Cool neutral tone, mild contrast, no heavy grading. Navy duotone optional. Over a hero photo, use a 60% navy bottom overlay for legibility. Headshots are greyscale with soft contrast on a navy-paper backdrop.",
+    "avoid": [
+      "Generic stock photography — airport runways, smiling business people, abstract tech imagery",
+      "Photographic hero backgrounds on the marketing landing page (use navy + the '+' motif)",
+      "Photography inside ACES or any data-dense UI, where it competes with information",
+      "Any image where type and color could do the work instead",
+      "Glassmorphism, blur, gradient meshes, and purple gradient washes",
+      "Emoji, unicode icon hacks, and PNG icons",
+      "Hand-drawn or isometric vector scenes and 3D chrome renders"
+    ],
+    "samples": []
+  },
+  "layout": {
+    "radius": "10px",
+    "borderWeight": "1px",
+    "spacing": "4px base grid",
+    "postureRules": [
+      "Backgrounds are flat: #FFFFFF cards, #F7F8FB page chrome, #0B1428 sidebars and data heroes. No photographic UI backgrounds. The only sanctioned gradient is navy → deeper-navy on IROPS hero surfaces.",
+      "Cards always carry border and shadow together — 1px #EEF0F5, 12–14px radius, small navy-tinted shadow at rest, larger on hover. Never shadow alone.",
+      "Navy is the primary voice: primary buttons, sidebars, nav chrome, data heroes. Green appears sparingly — active nav markers, primary CTA inside navy surfaces, live pulses, positive deltas.",
+      "Text on green is navy-black #0B1428, never white — white on #78BC43 is 2.31:1 and fails contrast.",
+      "Transparency is rare: modal scrims are navy at 40% alpha with no blur. Glassmorphism is not part of this brand.",
+      "Green branded-callout blocks are reserved for client requirements only — never for API's own commitments, SLAs, or marketing claims.",
+      "Charts are static SVG only, with filled data encoding. Canvas and interactive JS chart libraries are out of scope because they do not serialize into exported HTML or PDF.",
+      "Avoid fixed heights on KPI tiles, module cards, and highlight cards, and never fix button widths — Romance languages run 20–30% longer and German 35%+.",
+      "Component kit covers: Button (primary/secondary/ghost/pill), Card, KPI tile, Metric with delta chip, Badge, Tag, Chip, Form field, Select, Search field, Table, Sidebar nav, Topbar, Tabs, Breadcrumb, Modal, Menu, Tooltip, Status pill, Progress meter, Bar/line/donut chart, Avatar, Logo lockup, '+' hero motif."
+    ]
+  }
+}

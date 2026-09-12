@@ -1,18 +1,18 @@
 I'm starting a new project called [NAME].
 
 Read AGENTS.md and CLAUDE.md for all project rules.
-Skills are mirrored in three places for different tools — same content,
-different path: .claude/skills/ (Claude Code), .cursor/skills/ (Cursor),
-.agents/skills/ (everything else, e.g. Codex). If you're Claude Code, use
-your native Skill tool — it already lists what's available from
-.claude/skills/, don't read the folder manually. If you're Cursor or another
-agent without that native mechanism, read skill files directly from
-.cursor/skills/ or .agents/skills/ respectively.
+Skills are mirrored in two places for different tools — same content,
+different path: .claude/skills/ (Claude Code) and .agents/skills/ (any other
+agent). If you're Claude Code, use your native Skill tool — it already lists
+what's available from .claude/skills/, don't read the folder manually. If
+you're another agent without that native mechanism, read skill files directly
+from .agents/skills/.
 
 ## Design System
 The design system is already established in:
-- src/app/globals.css → live source of truth for all tokens (colors, typography, spacing, radius, shadows)
-- src/styles/design-tokens.ts → reference only
+- src/app/globals.css → live source of truth for all tokens (colors, typography, spacing, radius, shadows); self-hosts the brand fonts from public/fonts/ — never add a Google Fonts CDN link
+- src/styles/design-tokens.ts → TypeScript reference only
+- docs/design-system/DESIGN.md → the full design system reference (read this before writing any UI); brand.json and tokens.css sit beside it, and ui-kit/ is an applied component reference
 
 All styling must use these tokens. Never hardcode hex values, font names, or
 spacing values. Never override or replace existing tokens.

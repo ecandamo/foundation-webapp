@@ -1,0 +1,26 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "broken-image",
+        "value": "*",
+        "files": [
+          "docs/design-system/ui-kit/index.html"
+        ],
+        "createdAt": "2026-09-12T02:25:28.502Z",
+        "reason": "false positive: L51 is prose inside a CSS comment mentioning <img>, not an image tag; this is a from-disk reference demo fixture"
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "docs/design-system/ui-kit/index.html"
+        ],
+        "createdAt": "2026-09-12T02:56:49.268Z",
+        "reason": "intentional: the inline <style> styles only the thin review-bar chrome (10-14px meta strip); the app's real type hierarchy (38px KPI vs 14px body) lives in app.css"
+      }
+    ]
+  }
+}
