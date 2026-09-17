@@ -64,3 +64,9 @@ auth or a database (the base template needs none). Never commit `.env.local`.
 - Tailwind CSS for all styling
 - shadcn/ui as a base — always customize to match Design Philosophy, never use default appearance as-is
 - Clean, lightweight code — no unnecessary dependencies
+
+## Agent instructions
+Project rules live in **`AGENTS.md`** — the single source of truth, agent-agnostic.
+`CLAUDE.md` is a symlink to it, so Claude Code reads `CLAUDE.md` and every other
+agent reads `AGENTS.md`, both getting identical content. Edit `AGENTS.md` only;
+never create a separate `CLAUDE.md` (that would reintroduce drift).
