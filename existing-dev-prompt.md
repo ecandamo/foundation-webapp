@@ -1,4 +1,4 @@
-Read AGENTS.md and CLAUDE.md for all project rules.
+Read the project rules first — AGENTS.md (if you're Claude Code, CLAUDE.md is the same file: a symlink to AGENTS.md).
 Skills are mirrored in two places for different tools — same content,
 different path: .claude/skills/ (Claude Code) and .agents/skills/ (any other
 agent). If you're Claude Code, use your native Skill tool — it already lists
@@ -15,8 +15,8 @@ The design system is already established in:
 All styling must use these tokens. Never hardcode hex values, font names, or
 spacing values. Never override or replace existing tokens.
 
-Pay special attention to the Design Philosophy section — redesign this app to match 
-it. Current design is too generic — I want premium SaaS-level polish, clean 
+Pay special attention to the Design Philosophy section — redesign this app to match
+it. Current design is too generic — I want premium SaaS-level polish, clean
 typography hierarchy, intentional color usage, nothing generic or default looking.
 
 ## UX & Quality Standard
